@@ -1,0 +1,1619 @@
+/*
+ * The desk's own layout, on top of the design system's styles.css (docs/design.md). Colours,
+ * spacing, type, radii and motion come from design-system tokens. Raw values remain only where the
+ * design system has no token: 1px focus and dashed border widths, the 15rem rail, the 6px row
+ * split height (docs/design.md), the 3px finding rule, the hatch stripes, the faded-segment
+ * opacity, z-index layers, 100dvh and the skip link's offset. Nothing animates on load.
+ */
+
+/* ---------- Utilities ---------- */
+
+.money,
+.date {
+  font-variant-numeric: tabular-nums;
+}
+.money {
+  text-align: right;
+}
+.muted {
+  color: var(--text-muted);
+}
+/* Something a person copies into a portal: a reference, a code, a masked NRIC. */
+.literal {
+  font-family: var(--font-mono);
+  font-size: var(--text-body-sm);
+  color: var(--text-strong);
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 10;
+  padding: var(--space-2) var(--space-4);
+  background: var(--surface-card);
+  border: 1px solid var(--border-focus);
+  border-radius: var(--radius-sm);
+  transform: translateY(-200%);
+}
+.skip-link:focus-visible {
+  transform: none;
+}
+
+/* ---------- Frame ---------- */
+
+.desk {
+  min-height: 100dvh;
+  background: var(--surface-sunken);
+}
+/* The sticky top bar must not cover whatever has focus when someone tabs back up the page. */
+html:has(.desk[data-layout="bar"]) {
+  scroll-padding-top: calc(var(--tap-min) + var(--space-6));
+}
+.desk[data-layout="rail"] {
+  display: grid;
+  grid-template-columns: 15rem minmax(0, 1fr);
+}
+
+.desk__main {
+  min-width: 0;
+  padding: var(--space-8) var(--space-8) var(--space-12);
+  max-width: var(--container-max);
+}
+.desk__main:focus {
+  outline: none;
+}
+.desk[data-layout="bar"] .desk__main {
+  padding: var(--space-5) var(--space-4) var(--space-10);
+}
+
+.rail {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  height: 100dvh;
+  padding: var(--space-6) var(--space-4);
+  background: var(--surface-card);
+  border-right: var(--border-hairline);
+  overflow-y: auto;
+}
+.rail__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0 var(--space-3);
+}
+.rail__name {
+  font-family: var(--font-display);
+  font-size: var(--text-h4);
+  font-weight: var(--weight-semibold);
+  color: var(--text-strong);
+}
+.rail .desk-nav {
+  flex: 1;
+}
+.rail__who {
+  padding: 0 var(--space-3);
+  font-size: var(--text-caption);
+  overflow-wrap: anywhere;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--surface-card);
+  border-bottom: var(--border-hairline);
+}
+.topbar__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4);
+}
+.topbar__section {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-weight: var(--weight-semibold);
+  color: var(--text-strong);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.topbar .desk-nav {
+  padding: var(--space-2) var(--space-2) var(--space-4);
+  border-top: var(--border-hairline);
+}
+
+.desk-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+.desk-nav__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.desk-nav__list--apart {
+  margin-top: auto;
+  padding-top: var(--space-4);
+  border-top: var(--border-hairline);
+}
+.desk-nav__link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--tap-min);
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-sm);
+  color: var(--text-body);
+  font-weight: var(--weight-medium);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background var(--dur-fast) var(--ease-standard), color var(--dur-fast) var(--ease-standard);
+}
+.desk-nav__link:hover {
+  background: var(--surface-hover);
+  color: var(--text-strong);
+  text-decoration: none;
+}
+.desk-nav__link[aria-current] {
+  background: var(--brand-subtle);
+  color: var(--text-brand);
+  font-weight: var(--weight-semibold);
+}
+
+.simulator-banner {
+  margin-bottom: var(--space-6);
+  padding: var(--space-3) var(--space-4);
+  background: var(--neutral-100);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-sm);
+  color: var(--text-strong);
+  font-size: var(--text-body-sm);
+}
+
+/* Access asked for a sign-in again: the notice sits above the page, which stays. */
+.session-ended {
+  margin-bottom: var(--space-6);
+}
+
+.desk-loading {
+  padding: var(--space-8);
+}
+
+/* Signed out, no access, or the desk didn't load. */
+.desk-closed {
+  display: grid;
+  min-height: 100dvh;
+  place-items: center start;
+  padding: var(--space-8) var(--space-4);
+  background: var(--surface-sunken);
+}
+.desk-closed__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  width: 100%;
+  max-width: var(--measure-narrow);
+  margin: 0 auto;
+}
+.desk-closed__icon {
+  color: var(--text-muted);
+}
+
+/* A page that broke while rendering: reload or go to today, side by side. */
+.page-broken__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* ---------- Page header ---------- */
+
+.page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+.page-header__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.page-header h1 {
+  font-size: var(--text-h2);
+}
+.page-header__lede {
+  color: var(--text-body);
+  max-width: var(--measure-prose);
+}
+.page-header__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+/* ---------- Bill split ---------- */
+
+.bill-split__bar {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-full);
+  background: var(--neutral-100);
+}
+.bill-split--detail .bill-split__bar {
+  height: var(--space-4);
+}
+.bill-split--row .bill-split__bar {
+  height: 6px;
+}
+.bill-split__segment--chas {
+  background: var(--green-700);
+}
+.bill-split__segment--medisave {
+  background: var(--green-500);
+}
+.bill-split__segment--insurer {
+  background: var(--green-300);
+}
+.bill-split__segment--rest {
+  background: var(--neutral-300);
+}
+.bill-split__segment--patient {
+  background-color: var(--neutral-200);
+  background-image: repeating-linear-gradient(
+    135deg,
+    transparent 0 3px,
+    var(--neutral-300) 3px 4px
+  );
+}
+.bill-split__segment[data-faded] {
+  opacity: 0.35;
+}
+.bill-split__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-body-sm);
+  font-variant-numeric: tabular-nums;
+}
+.bill-split__legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.bill-split__swatch {
+  display: inline-block;
+  width: var(--space-3);
+  height: var(--space-3);
+  border-radius: var(--radius-xs);
+}
+
+/* ---------- Findings ---------- */
+
+.finding-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.finding {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid;
+}
+.finding--blocking {
+  background: var(--danger-bg);
+  border-left-color: var(--danger-fg);
+}
+.finding--warning {
+  background: var(--warning-bg);
+  border-left-color: var(--warning-fg);
+}
+.finding__severity {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-body-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--text-strong);
+}
+.finding__message {
+  color: var(--text-strong);
+  overflow-wrap: anywhere;
+}
+.finding__source {
+  font-size: var(--text-body-sm);
+  overflow-wrap: anywhere;
+}
+/* The fix a claim the payer will never pay offers: withdraw it (S8). */
+.finding-fix {
+  margin-top: var(--space-3);
+}
+/* What the build said about the visit as a whole, under the claim's own findings (D02). */
+.claim-detail__visit {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: var(--border-hairline);
+}
+.claim-detail__visit h3 {
+  font-size: var(--text-h4);
+  text-wrap: balance;
+}
+.claim-detail__remarks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding-left: var(--space-5);
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Masked identifier ---------- */
+
+.masked-identifier {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+.masked-identifier__note {
+  font-size: var(--text-caption);
+  color: var(--text-muted);
+}
+
+/* ---------- Focus after an action ---------- */
+
+/* What an action's result says takes the focus once it settles (QA N1, `src/ui/focus.ts`). It isn't
+   a control, so it shows a ring only when the keyboard brought it there. */
+.settled-focus:focus {
+  outline: none;
+}
+.settled-focus:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* ---------- Dialog ---------- */
+
+/* Never taller than the screen, less the overlay's padding (QA N2). The header with Close and the
+   footer with the actions keep their height; the body between them scrolls. The body's small
+   inset keeps focus rings on its fields from being clipped by the scroll edge. */
+.desk-dialog {
+  max-height: calc(100vh - 2 * var(--space-4));
+  max-height: calc(100dvh - 2 * var(--space-4));
+}
+.desk-dialog__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-1);
+  margin: calc(-1 * var(--space-1));
+}
+
+/* ---------- Page states ---------- */
+
+/* A page's one-line result, such as an import summary. Empty until something happens. */
+.import-result,
+.batch-result,
+.statement-result {
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-body-sm);
+}
+.import-result:empty,
+.batch-result:empty,
+.statement-result:empty {
+  margin: 0;
+}
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+.empty-state p {
+  margin: 0;
+}
+.empty-state__title {
+  margin: 0;
+  font-size: var(--text-h4);
+}
+/* A failure sentence with its "Try again" beside it, wrapping under it on a phone. */
+.retry-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+}
+.load-synthetic {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+.load-synthetic__failed,
+.queue__more-failed {
+  margin: 0;
+  font-size: var(--text-body-sm);
+  color: var(--danger-fg);
+}
+
+/* ---------- Queue ---------- */
+
+/* The filters (QA D01): a quiet row of labelled selects above the list, wrapping on a phone
+   (docs/design.md, Queue). "Clear filters" closes the row once anything is filtered. */
+.queue-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+.queue-filters__field {
+  flex: 1 1 10rem;
+  min-width: 0;
+}
+.queue-filters__clear {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-h-md);
+}
+
+/* Rows separated by hairlines inside one card (docs/design.md, Layout). On a phone each row
+   stacks: patient and payer with the amount on one line, then status, visit date and deadline. */
+.queue,
+.imports {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.claim-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  min-width: 0;
+  /* "Show more" can grow the list well past one page; skip laying out rows off screen. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 5.5rem;
+}
+.claim-row + .claim-row,
+.import-row + .import-row {
+  border-top: var(--border-hairline);
+}
+.claim-row__main {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-width: 0;
+}
+/* A reviewer's tick box on a ready claim (AC-3.4). The design system hides the real input, so
+   its drawn box carries the keyboard focus ring. */
+.claim-row__main > label {
+  flex-shrink: 0;
+  align-self: center;
+}
+.claim-row__select:focus-visible + span {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+.claim-row__link {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-3);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.claim-row__main .money {
+  flex-shrink: 0;
+  font-weight: var(--weight-semibold);
+  color: var(--text-strong);
+}
+.claim-row__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-3);
+  font-size: var(--text-body-sm);
+}
+.claim-row__submit {
+  margin-left: auto;
+  font-weight: var(--weight-medium);
+}
+.claim-row__findings summary {
+  cursor: pointer;
+  width: fit-content;
+  font-size: var(--text-body-sm);
+  font-weight: var(--weight-medium);
+  color: var(--text-strong);
+}
+.claim-row__findings[open] summary {
+  margin-bottom: var(--space-3);
+}
+/* Batch approval above the queue, and what it said once it came back. */
+.queue-batch {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-4);
+}
+.queue-batch > p {
+  margin: 0;
+  font-size: var(--text-body-sm);
+}
+.batch-failures {
+  margin: 0;
+  padding-left: var(--space-5);
+}
+.batch-failures li + li {
+  margin-top: var(--space-1);
+}
+.batch-warnings {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.batch-warnings li + li {
+  margin-top: var(--space-4);
+}
+.batch-warnings h3 {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-body);
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+.queue__more {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  margin-top: var(--space-4);
+}
+
+/* ---------- Imports ---------- */
+
+.import-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+}
+.import-row__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-3);
+}
+.import-row__head .date {
+  font-size: var(--text-body-sm);
+}
+/* Six counts in a row on a desk, wrapping to three or two across on a phone. */
+.import-row__counts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
+  gap: var(--space-2) var(--space-4);
+  margin: 0;
+}
+.import-row__count {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-0);
+}
+.import-row__count dt {
+  font-size: var(--text-caption);
+  color: var(--text-muted);
+}
+.import-row__count dd {
+  margin: 0;
+}
+.import-row__figure {
+  font-variant-numeric: tabular-nums;
+  color: var(--text-strong);
+}
+
+/* ---------- Claim detail ---------- */
+
+/* The amount in Outfit at h2 size, the payer beside it as a plain sentence. */
+.claim-amount {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-3);
+}
+.claim-amount__value {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+}
+.claim-amount__payer {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--weight-regular);
+  color: var(--text-body);
+}
+.claim-detail__status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  margin-bottom: var(--space-4);
+}
+.claim-detail__blocked {
+  font-size: var(--text-body-sm);
+  color: var(--text-strong);
+}
+.claim-detail__paid {
+  margin-bottom: var(--space-4);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-strong);
+}
+.claim-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-3);
+  margin: var(--space-4) 0 var(--space-6);
+}
+.action-form {
+  display: grid;
+  gap: var(--space-3);
+  flex-basis: 100%;
+  max-width: var(--measure-prose);
+}
+/* A field's hint or error drawn by the app so the input can point at it (QA D20). */
+.field-note {
+  font-size: var(--text-caption);
+  color: var(--text-muted);
+}
+.field-note--error {
+  color: var(--danger-fg);
+}
+
+/* One column on a phone, findings first; from 1024px the claim on the left, the rest on the right. */
+.claim-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-6);
+}
+.claim-detail > section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.claim-detail h2,
+.claim-detail h3 {
+  text-wrap: balance;
+}
+.claim-detail h2 {
+  font-size: var(--text-h3);
+}
+@media (min-width: 1024px) {
+  .claim-detail {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    grid-template-areas:
+      "claim findings"
+      "claim history"
+      "claim submissions"
+      "claim .";
+    grid-template-rows: auto auto auto 1fr;
+    align-items: start;
+  }
+  .claim-detail__claim {
+    grid-area: claim;
+  }
+  .claim-detail__findings {
+    grid-area: findings;
+  }
+  .claim-detail__history {
+    grid-area: history;
+  }
+  .claim-detail__submissions {
+    grid-area: submissions;
+  }
+}
+
+/* The claim's own card: patient, who pays, notes, lines and rule set, one under another. */
+.claim-detail__patient,
+.claim-detail__pays,
+.claim-detail__annotations,
+.claim-detail__rules {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.claim-detail__claim .table-scroll,
+.claim-detail__pays,
+.claim-detail__annotations,
+.claim-detail__rules {
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: var(--border-hairline);
+}
+.claim-detail__claim h3 {
+  font-size: var(--text-h4);
+}
+.claim-facts {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: var(--space-2) var(--space-4);
+  margin: 0;
+}
+/* A wrapper div (the kept annotations) joins the parent grid. */
+.claim-facts > div {
+  display: contents;
+}
+.claim-facts dt {
+  color: var(--text-muted);
+  font-size: var(--text-body-sm);
+}
+.claim-facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.claim-siblings,
+.claim-detail__sources,
+.claim-detail__priced {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.claim-siblings li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+.claim-detail__sources li,
+.claim-detail__priced li {
+  overflow-wrap: anywhere;
+}
+
+/* The lines scroll sideways inside their own box on a phone, never the page. */
+.table-scroll {
+  overflow-x: auto;
+}
+.claim-lines,
+.statement-lines {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-body-sm);
+}
+.claim-lines caption,
+.statement-lines caption {
+  text-align: left;
+  padding-bottom: var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-h4);
+  font-weight: var(--weight-semibold);
+  color: var(--text-strong);
+}
+.claim-lines th,
+.claim-lines td,
+.statement-lines th,
+.statement-lines td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: var(--border-hairline);
+  text-align: left;
+  vertical-align: top;
+  white-space: nowrap;
+}
+.claim-lines th,
+.statement-lines th {
+  font-weight: var(--weight-medium);
+  color: var(--text-muted);
+}
+.claim-lines th:first-child,
+.claim-lines td:first-child,
+.statement-lines th:first-child,
+.statement-lines td:first-child {
+  padding-left: 0;
+}
+.claim-lines th:last-child,
+.claim-lines td:last-child,
+.statement-lines th:last-child,
+.statement-lines td:last-child {
+  padding-right: 0;
+}
+.claim-lines .num,
+.statement-lines .num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* History and submissions: one event a row, oldest first. */
+.claim-history {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.claim-history__event {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-bottom: var(--space-3);
+  border-bottom: var(--border-hairline);
+}
+.claim-history__event:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+.claim-history__what {
+  color: var(--text-strong);
+  overflow-wrap: anywhere;
+}
+.claim-history__who {
+  font-size: var(--text-body-sm);
+}
+.claim-history__error {
+  font-size: var(--text-body-sm);
+  color: var(--danger-fg);
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Today ---------- */
+
+/* Two quiet lists under the sentence of counts: one column on a phone, side by side from 1024px. */
+.today {
+  display: grid;
+  gap: var(--space-6);
+  align-items: start;
+}
+@media (min-width: 64rem) {
+  .today {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.today__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.today__heading {
+  margin: 0;
+  font-size: var(--text-h4);
+  color: var(--text-strong);
+}
+.today__remittances {
+  margin: 0;
+}
+.today-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.today-list > li + li {
+  border-top: var(--border-hairline);
+}
+.today-list__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: var(--tap-min);
+  padding: var(--space-3) var(--space-4);
+  min-width: 0;
+}
+a.today-list__row {
+  color: var(--text-body);
+  touch-action: manipulation;
+}
+a.today-list__row:hover {
+  background: var(--surface-hover);
+  text-decoration: none;
+}
+.today-list__figure {
+  font-variant-numeric: tabular-nums;
+  color: var(--text-strong);
+}
+.today-list__payer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-3);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.today-list__empty {
+  margin: 0;
+  padding: var(--space-4);
+}
+
+/* ---------- Settings ---------- */
+
+/* One column of titled cards, held to a readable width on a desk. Each card holds rows of
+   fields that sit side by side where there is room and stack on a phone. */
+.settings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  min-width: 0;
+}
+.settings + .settings__section {
+  margin-top: var(--space-8);
+}
+.settings__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: var(--container-narrow);
+  min-width: 0;
+}
+.settings__section > div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+}
+.settings__section > div > button {
+  align-self: flex-start;
+}
+.settings__heading {
+  margin: 0;
+  font-size: var(--text-h4);
+  color: var(--text-strong);
+}
+.settings__subheading {
+  margin: 0;
+  font-size: var(--text-body);
+  font-weight: var(--weight-semibold);
+  color: var(--text-strong);
+}
+.settings__lede,
+.settings__note {
+  margin: 0;
+  max-width: var(--measure-prose);
+}
+.settings__section p {
+  margin: 0;
+}
+/* The fieldset only disables everything inside it for officers; it draws nothing itself. */
+.settings__fields,
+.code-map__fields {
+  display: contents;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.settings__fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+.settings__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+  max-width: var(--container-narrow);
+}
+.settings__actions > [role="alert"] {
+  flex-basis: 100%;
+}
+/* The Checkbox's real input is invisible, so its drawn box carries the focus ring. */
+.settings__section label:has(> input:focus-visible) > span[aria-hidden="true"] {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* Identifier key: where the key stands, and the reseal's result line, which takes the focus after a run. */
+.identifier-key {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.identifier-key > button {
+  align-self: flex-start;
+}
+.identifier-key__failures {
+  margin: 0;
+  padding-left: var(--space-5);
+  overflow-wrap: anywhere;
+}
+.settings__status:focus {
+  outline: none;
+}
+.settings__status:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* A row of fields under a legend: a payer, a branch, an override. */
+.settings-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  align-items: start;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.settings-row + .settings-row {
+  padding-top: var(--space-4);
+  border-top: var(--border-hairline);
+}
+/* Removing an override sits at the foot of its row, out of the way of the fields. */
+.settings-row__remove {
+  align-self: end;
+  justify-self: start;
+}
+.settings-row__legend {
+  padding: 0 0 var(--space-2);
+  font-weight: var(--weight-semibold);
+  color: var(--text-strong);
+}
+.settings-row--choices {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--space-6);
+  row-gap: 0;
+}
+.settings-field__error,
+.settings-field__hint {
+  font-size: var(--text-caption);
+}
+.settings-field__error {
+  color: var(--danger-fg);
+}
+.settings-field__hint {
+  color: var(--text-muted);
+}
+
+.settings-choices,
+.settings-people__list,
+.settings-rules__sources,
+.settings-tables,
+.settings-waterfall,
+.code-map__list,
+.code-map__unmapped-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ---------- Settings: people, rule sets, clinic database ---------- */
+
+.settings-people {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: var(--space-4) var(--space-6);
+}
+.settings-people > div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.settings-people__list {
+  overflow-wrap: anywhere;
+}
+.settings-rules {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.settings-rules__set {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.settings-rules__set + .settings-rules__set {
+  padding-top: var(--space-4);
+  border-top: var(--border-hairline);
+}
+.settings-rules__dates,
+.settings-rules__note {
+  font-size: var(--text-body-sm);
+}
+.settings-rules__note {
+  max-width: var(--measure-prose);
+}
+.settings-rules__sources {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: var(--text-body-sm);
+}
+.settings-rules__sources li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-0) var(--space-2);
+  min-width: 0;
+}
+/* Source URLs are long and unbroken; let them wrap anywhere rather than push the page sideways. */
+.settings-rules__link {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.settings-tables {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  overflow-wrap: anywhere;
+}
+.settings-tables__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+.settings-tables__actions:empty {
+  display: none;
+}
+
+/* ---------- Settings: waterfall ---------- */
+
+.settings-waterfall {
+  counter-reset: waterfall;
+}
+.settings-waterfall__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  padding: var(--space-2) 0;
+  counter-increment: waterfall;
+}
+.settings-waterfall__row + .settings-waterfall__row {
+  border-top: var(--border-hairline);
+}
+.settings-waterfall__name {
+  color: var(--text-strong);
+}
+.settings-waterfall__name::before {
+  content: counter(waterfall) ". ";
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+}
+.settings-waterfall__moves {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* ---------- Settings: code map ---------- */
+
+/* One group per clinic code: its heading, its entries, then "Add a mapping". */
+.code-map__group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-4) 0;
+  min-width: 0;
+}
+.code-map__group:first-child {
+  padding-top: 0;
+}
+.code-map__entries {
+  align-self: stretch;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.code-map__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-2) 0;
+  min-width: 0;
+}
+.code-map__group + .code-map__group,
+.code-map__row + .code-map__row,
+.code-map__unmapped + .code-map__unmapped {
+  border-top: var(--border-hairline);
+}
+/* A change form, a confirmation or a refusal opens below the entry, across the whole row. */
+.code-map__row > .code-map__form,
+.code-map__row > .code-map__confirm,
+.code-map__row > [role="alert"] {
+  flex-basis: 100%;
+}
+.code-map__confirm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+}
+.code-map__target {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.code-map__unmapped {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4) 0;
+  min-width: 0;
+}
+.code-map__unmapped:first-child {
+  padding-top: 0;
+}
+.code-map__form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  align-items: end;
+  gap: var(--space-3) var(--space-4);
+  min-width: 0;
+}
+.code-map__heading,
+.code-map__description,
+.code-map__form > [role="alert"] {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+.code-map__heading {
+  font-size: var(--text-body);
+  font-weight: var(--weight-semibold);
+}
+.code-map__description {
+  font-size: var(--text-body-sm);
+}
+.code-map__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-self: start;
+}
+
+/* ---------- Submission (block 07) ---------- */
+
+/* The assisted checklist: the bill split first, so the officer sees what the patient was told they
+   pay, then the payer's fields in portal order, then the one primary action. */
+.checklist-split {
+  margin-bottom: var(--space-5);
+}
+.packet {
+  margin-bottom: var(--space-5);
+}
+.packet__title,
+.send-results__title {
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-h3);
+  text-wrap: balance;
+}
+.packet__fields dd {
+  min-height: var(--control-h-sm);
+  display: flex;
+  align-items: center;
+}
+.packet__value {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+.packet__copied {
+  min-height: 1.5em;
+  margin: var(--space-3) 0 0;
+  font-size: var(--text-body-sm);
+}
+.checklist-actions,
+.send-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+/* Sending approved claims: one section per payer, each a card of rows like the queue. */
+.send-group {
+  margin-bottom: var(--space-5);
+}
+.send-group__title {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-h4);
+  text-wrap: balance;
+}
+.send-actions__problem {
+  margin: var(--space-2) 0 0;
+  color: var(--danger-fg);
+  font-size: var(--text-body-sm);
+}
+.send-results {
+  margin-bottom: var(--space-6);
+}
+.send-results__title:focus:not(:focus-visible) {
+  outline: none;
+}
+.send-results__group + .send-results__group {
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: var(--border-hairline);
+}
+.send-results__group h3 {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-body);
+  overflow-wrap: anywhere;
+}
+.send-results__group p {
+  margin: 0 0 var(--space-3);
+  max-width: var(--measure-prose);
+}
+.send-results__list {
+  margin: 0 0 var(--space-3);
+  padding-left: var(--space-5);
+  overflow-wrap: anywhere;
+}
+.send-results__list li + li {
+  margin-top: var(--space-1);
+}
+.send-results__download {
+  font-weight: var(--weight-medium);
+}
+
+/* The payer simulator's inbox: one card, items separated by hairlines, like the queue. */
+.sim-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4) 0;
+  min-width: 0;
+}
+.sim-item:first-child {
+  padding-top: 0;
+}
+.sim-item:last-child {
+  padding-bottom: 0;
+}
+.sim-item + .sim-item {
+  border-top: var(--border-hairline);
+}
+.sim-item__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  min-width: 0;
+}
+.sim-item__title {
+  margin: 0;
+  font-size: var(--text-body);
+}
+.sim-item__when {
+  font-size: var(--text-body-sm);
+  font-variant-numeric: tabular-nums;
+}
+/* Amounts sit beside their labels here, not in a right-aligned column. */
+.sim-item__amounts .money {
+  text-align: start;
+}
+.sim-item__packet summary {
+  width: fit-content;
+  cursor: pointer;
+  font-size: var(--text-body-sm);
+  font-weight: var(--weight-medium);
+  touch-action: manipulation;
+}
+.sim-item__packet[open] summary {
+  margin-bottom: var(--space-3);
+}
+.sim-item__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+}
+
+/* ---------- Payments ---------- */
+
+.statement-upload form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  max-width: var(--container-narrow);
+}
+.statement-upload form > * {
+  align-self: stretch;
+}
+.statement-upload form > button {
+  align-self: flex-start;
+}
+.statement-columns {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.statement-columns legend {
+  padding: 0 0 var(--space-2);
+  font-weight: var(--weight-semibold);
+  color: var(--text-strong);
+}
+.statement-columns p {
+  margin: 0;
+}
+.statement-columns__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  gap: var(--space-3) var(--space-4);
+}
+
+/* Lines the desk left for a person, above the claims the statement paid. */
+.statement-waiting {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-8);
+}
+.statement-waiting h2 {
+  margin: 0;
+  font-size: var(--text-h3);
+  text-wrap: balance;
+}
+.statement-waiting__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.statement-waiting__line {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  min-width: 0;
+}
+.statement-waiting__line + .statement-waiting__line {
+  border-top: var(--border-hairline);
+}
+/* Line number, reference and visit date on the left; the amount holds the right edge. */
+.statement-waiting__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-3);
+  min-width: 0;
+}
+.statement-waiting__head h3 {
+  margin: 0;
+  font-size: var(--text-body);
+  font-weight: var(--weight-semibold);
+}
+.statement-waiting__head > .money {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+.statement-waiting__note {
+  margin: 0;
+  max-width: var(--measure-prose);
+  font-size: var(--text-body-sm);
+}
+.statement-waiting__form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: var(--space-3) var(--space-4);
+  max-width: var(--container-narrow);
+}
+.statement-waiting__form > [role="alert"] {
+  grid-column: 1 / -1;
+}
+/* The confirm step takes the button's place, under the claim it names, across the form's width. */
+.statement-waiting__confirm {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background: var(--surface-sunken);
+  border: var(--border-hairline);
+  border-radius: var(--radius-md);
+  min-width: 0;
+}
+.statement-waiting__question,
+.statement-waiting__claim {
+  margin: 0;
+  max-width: var(--measure-prose);
+  overflow-wrap: anywhere;
+}
+.statement-waiting__question {
+  font-weight: var(--weight-medium);
+}
+.statement-waiting__question:focus {
+  outline: none;
+}
+.statement-waiting__question:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+.statement-waiting__claim {
+  font-size: var(--text-body-sm);
+}
+.statement-waiting__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+@media (max-width: 480px) {
+  .statement-waiting__form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .statement-waiting__form > button {
+    justify-self: start;
+  }
+}
+/* The badge, and for a short payment the link to settle it, wrap under each other in a narrow cell. */
+.statement-lines__status {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-3);
+}
+
+/* ---------- Motion ---------- */
+
+/* The design system's tokens drop every --dur-* to 1ms under reduced motion; this also stills any
+   motion with a raw duration, such as the design system's motion components, if one is added. */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

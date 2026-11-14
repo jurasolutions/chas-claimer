@@ -1,0 +1,37 @@
+node_modules/
+dist/
+.wrangler/
+
+# Secrets live in the Cloudflare Pages environment, never in the repo.
+.env
+.env.*
+!.env.example
+
+# Wrangler reads local secrets from here when running Pages Functions locally.
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+.vscode/
+.idea/
+
+# Developer agents work in git worktrees here.
+.claude/worktrees/
+.playwright-mcp/
+
+# Crew QA screenshots and downloads stay local.
+.scratch/*/qa/
+
+# Real clinic exports never enter this public repo. Only the synthetic mock data is committed.
+*.clinic.sqlite
+*.clinic.db
+clinic-exports/
+
+# D1 exports of the desk hold health data (sealed and masked, but still the clinic's). Keep them in
+# an encrypted store, never here.
+backups/
+*.d1-export.sql

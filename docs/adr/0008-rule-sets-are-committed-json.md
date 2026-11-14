@@ -1,0 +1,3 @@
+# Rule sets are committed JSON; settings fill only confirmed blanks; claims pin their rule set
+
+Refines ADR 0002. Rule sets live in `src/domain/rules/data/*.json`, each with an id, effective dates, sources (URL and retrieved date) and the figures, so git review is their audit trail. A figure the research has not confirmed ships as `null`. Settings may fill a blank benchmark only with a source URL and an as-of date, and the override is shown as one. Every claim stores the `rule_set_id` it was built with, so a new rule set never silently re-prices a submitted claim. Dates are SGT calendar dates; the CHAS window is the visit date plus 30 days, inclusive.

@@ -1,0 +1,19 @@
+# Local secrets for `npm run dev:functions`. Copy this file to `.dev.vars` (git-ignored) and fill in
+# only what you need. Every value below is a placeholder. Never put a real key in this file.
+#
+# `npm run dev:functions` already binds DEV_USER, ROLE_REVIEWERS, ROLE_OFFICERS, DEMO_MODE and a
+# published development IDENTIFIER_KEY on the command line, so they are not repeated here. The
+# deployed desk's values live in the Cloudflare Pages dashboard, never in a file.
+
+# Turns on AI suggestions locally. Leave it commented out to work without AI.
+# ANTHROPIC_API_KEY=replace-with-your-own-development-key
+# ANTHROPIC_BASE_URL=https://api.anthropic.com
+# AI_DAILY_CALL_CAP=20
+
+# Lets you run the connector against http://localhost:8788. At least 43 characters; make one with
+# `openssl rand -base64 32`. Set the same value in the connector's environment.
+# CONNECTOR_TOKEN=replace-with-at-least-43-random-characters
+
+# A payer on the `api` channel, named after its payer ID in settings. Point it at a test endpoint
+# only, never a real payer.
+# PAYER_MERIDIAN_API_TOKEN=replace-with-a-test-token

@@ -1,0 +1,7 @@
+# Limits we can only partly see produce warnings, never blocks
+
+MHCP and NPHC hold a patient's real balance across every clinic; the claims desk only sees this clinic's claims. A local count that says a patient is over an annual limit may be wrong in both directions. We decided such counts produce a warning that tells the claims officer to check the balance in the portal, and that blocking findings are reserved for facts that are certain from the source visit itself (expired card, CHAS Green for dental, past the 30-day window, same-day duplicate, unfinished multi-visit procedure, no MCAF, an MSP-ranked TOSP code).
+
+Amended after ticket 03's review. Two cases sit on the line. An insurer's annual limit is one the desk can only partly see (the patient may have claimed elsewhere), so passing it bills the insurer in full with a warning, counted per policy. An insurer's submission deadline is certain from the claim date and the deadline the clinic entered for that payer, like the CHAS 30-day window, so passing it blocks (`insurance_deadline_passed`); the setting ships blank, so the check runs only where the clinic has entered the insurer's terms.
+
+Amended after QA 03. Sent claims that add up to more than the visit's fee are certain from the visit and what the desk sent, so they block (`sent_claims_exceed_fee`) every claim of the visit still to send until the sent ones are amended at the portal. A lower payer sent first is not wrong in itself, so it only warns (`lower_payer_sent_first`).

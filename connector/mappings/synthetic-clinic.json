@@ -1,0 +1,71 @@
+{
+  "amountUnit": "cents",
+  "visits": {
+    "table": "appointments",
+    "fields": {
+      "visitKey": "appt_no",
+      "patientKey": "patient_id",
+      "branchId": "branch_code",
+      "dentistId": "doctor_code",
+      "date": "appt_date",
+      "startTime": "start_time",
+      "voided": "is_void",
+      "notes": "doctor_note"
+    }
+  },
+  "patients": {
+    "table": "patients",
+    "key": "patient_id",
+    "fields": { "nric": "nric", "name": "full_name", "phone": "mobile", "dateOfBirth": "dob", "address": "address" }
+  },
+  "treatments": {
+    "table": "treatment_lines",
+    "key": "appt_no",
+    "fields": {
+      "code": "item_code",
+      "description": "item_desc",
+      "fee": "fee_cents",
+      "gst": "gst_cents",
+      "tooth": "tooth",
+      "quantity": "qty",
+      "completion": "status",
+      "completedOn": "completed_on"
+    }
+  },
+  "chasCards": {
+    "table": "chas_cards",
+    "key": "patient_id",
+    "fields": { "tier": "tier", "expiry": "expiry_date" }
+  },
+  "policies": {
+    "table": "insurance_policies",
+    "key": "patient_id",
+    "fields": {
+      "payerId": "insurer_code",
+      "memberId": "member_no",
+      "plan": "plan_name",
+      "employer": "employer",
+      "limit": "annual_limit_cents",
+      "validFrom": "valid_from",
+      "validTo": "valid_to"
+    }
+  },
+  "medisave": {
+    "table": "medisave_details",
+    "key": "appt_no",
+    "fields": {
+      "holderRelationship": "holder_relationship",
+      "holderAge": "holder_age",
+      "holderNric": "holder_nric",
+      "mcafType": "mcaf_type",
+      "mcafValidFrom": "mcaf_valid_from",
+      "mcafValidTo": "mcaf_valid_to",
+      "mcafRevokedOn": "mcaf_revoked_on"
+    }
+  },
+  "preAuths": {
+    "table": "preauthorisations",
+    "key": "appt_no",
+    "fields": { "payerId": "insurer_code", "benefitCode": "benefit_code", "reference": "preauth_ref", "approvedOn": "approved_on" }
+  }
+}

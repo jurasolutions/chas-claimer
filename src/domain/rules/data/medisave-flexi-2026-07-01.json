@@ -1,0 +1,14 @@
+{
+  "id": "medisave-flexi-2026-07-01",
+  "scheme": "medisave_flexi",
+  "effectiveFrom": "2026-07-01",
+  "effectiveTo": null,
+  "sources": [
+    { "url": "https://www.cpf.gov.sg/service/article/what-is-outpatient-flexi-medisave", "retrieved": "2026-11-13" },
+    { "url": "https://www.cpf.gov.sg/service/article/can-i-use-my-medisave-to-pay-for-dental-treatments", "retrieved": "2026-11-13" }
+  ],
+  "note": "Start date unconfirmed. Patients 60 and over, from their own or a spouse's account (the spouse also 60 or over), up to $400 a year across all clinics, for crowns and root canal treatment. The desk cannot see the yearly balance, so every Flexi-MediSave claim asks the officer to check it in the portal.",
+  "minAge": 60,
+  "yearlyCapCents": 40000,
+  "coveredChasProcedures": ["CROWN_PERMANENT", "RCT_ANTERIOR", "RCT_PREMOLAR", "RCT_MOLAR"]
+}

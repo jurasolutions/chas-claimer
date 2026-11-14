@@ -1,0 +1,3 @@
+# A cloud claims desk fed by a connector at the clinic
+
+The clinic database sits on the clinic's network or its vendor's cloud, which a Cloudflare-hosted app cannot reach. We decided the claims desk runs on Cloudflare Pages with D1 (as Jura's other apps do), and a small connector at the clinic reads the clinic database through a source mapping and posts source visits over HTTPS. We rejected running the whole desk on a clinic PC (no shared access across branches, Jura can't support it) and connecting the cloud to the clinic database directly (it would mean opening the clinic's database to the internet). Jura becomes the clinic's data intermediary under the PDPA, so a written processing agreement must be in place before real data flows.

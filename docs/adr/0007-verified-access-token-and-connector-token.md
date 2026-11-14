@@ -1,0 +1,3 @@
+# Who is signed in comes from a verified Access token; the connector has its own token
+
+The desk trusts only a verified `Cf-Access-Jwt-Assertion` (RS256 against the team's published keys, audience and expiry checked), never the `Cf-Access-Authenticated-User-Email` header, because a Pages project also answers on `pages.dev` and preview hostnames that Access may not cover, where anyone could send the header. Unconfigured means closed (503). `DEV_USER` is honoured only on loopback (localhost, 127.0.0.1 or [::1]). The connector authenticates with a bearer `CONNECTOR_TOKEN` valid on `POST /api/imports` only, plus an Access service token. Roles come from email allowlists in the environment.

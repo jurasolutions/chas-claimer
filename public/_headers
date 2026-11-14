@@ -1,0 +1,12 @@
+# Cloudflare Pages headers for the static desk (technical.md F11). Vite copies this into dist/.
+# Function responses set their own headers: every /api answer is Cache-Control: no-store.
+#
+# style-src allows 'unsafe-inline' only because the read-only design system renders <style>
+# elements for its keyframes; scripts stay 'self'. Fonts come from Google Fonts, as the design
+# system's tokens/fonts.css imports them.
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+  X-Frame-Options: DENY
+  Referrer-Policy: no-referrer
+  X-Content-Type-Options: nosniff
+  Permissions-Policy: camera=(), microphone=(), geolocation=()

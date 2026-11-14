@@ -1,0 +1,39 @@
+{
+  "id": "chas-2025-10-01",
+  "scheme": "chas",
+  "effectiveFrom": "2025-10-01",
+  "effectiveTo": null,
+  "sources": [
+    { "url": "https://www.chas.sg/Using-CHAS/Cards-and-Subsidies/", "retrieved": "2026-11-13" },
+    { "url": "https://www.chas.sg/For-Clinics/FAQ-Dentist", "retrieved": "2026-11-13" },
+    { "url": "https://www.chas.sg/chas-dental-subsidies", "retrieved": "2026-11-13" },
+    {
+      "url": "https://www.moh.gov.sg/newsroom/enhanced-financing-support-for-chas-dental-procedures-and-financial-governance-of-chas-clinics/",
+      "retrieved": "2026-11-13"
+    }
+  ],
+  "note": "Reline and repair (1 upper and 1 lower) is held as 2 a year; complete dentures (1 upper and 1 lower) and partial dentures as 2 per 3 years. The desk cannot tell the arch apart, so these are warnings to check in the portal.",
+  "windowDays": 30,
+  "tierBasis": { "PG": "table", "MG": "table", "Blue": "table", "Orange": "table", "Green": "none", "PA": "full_fee" },
+  "benchmarksFrom": "2026-09-01",
+  "procedures": {
+    "CONSULTATION": { "subsidyCents": { "PG": 3050, "MG": 2550, "Blue": 2050, "Orange": 1350 }, "limit": { "group": "CONSULTATION", "count": 2, "periodYears": 1 }, "benchmark": { "minCents": 2100, "maxCents": 3100 } },
+    "POLISHING": { "subsidyCents": { "PG": 3050, "MG": 2550, "Blue": 2050, "Orange": 1350 }, "limit": { "group": "POLISHING", "count": 2, "periodYears": 1 }, "benchmark": null },
+    "SCALING": { "subsidyCents": { "PG": 4000, "MG": 3500, "Blue": 3000, "Orange": 2000 }, "limit": { "group": "SCALING", "count": 2, "periodYears": 1 }, "benchmark": null },
+    "TOPICAL_FLUORIDE": { "subsidyCents": { "PG": 3050, "MG": 2550, "Blue": 2050, "Orange": 1350 }, "limit": { "group": "TOPICAL_FLUORIDE", "count": 2, "periodYears": 1 }, "benchmark": null },
+    "XRAY": { "subsidyCents": { "PG": 2100, "MG": 1600, "Blue": 1100, "Orange": 750 }, "limit": { "group": "XRAY", "count": 6, "periodYears": 1 }, "benchmark": null },
+    "EXTRACTION_ANTERIOR": { "subsidyCents": { "PG": 3850, "MG": 3350, "Blue": 2850, "Orange": 1900 }, "limit": { "group": "EXTRACTION", "count": 4, "periodYears": 1 }, "benchmark": null },
+    "EXTRACTION_POSTERIOR": { "subsidyCents": { "PG": 7850, "MG": 7350, "Blue": 6850, "Orange": 4550 }, "limit": { "group": "EXTRACTION", "count": 4, "periodYears": 1 }, "benchmark": null },
+    "FILLING_COMPLEX": { "subsidyCents": { "PG": 6000, "MG": 5500, "Blue": 5000, "Orange": 3350 }, "limit": { "group": "FILLING", "count": 6, "periodYears": 1 }, "benchmark": null },
+    "FILLING_SIMPLE": { "subsidyCents": { "PG": 4000, "MG": 3500, "Blue": 3000, "Orange": 2000 }, "limit": { "group": "FILLING", "count": 6, "periodYears": 1 }, "benchmark": null },
+    "RECEMENTATION": { "subsidyCents": { "PG": 4500, "MG": 4000, "Blue": 3500, "Orange": 2350 }, "limit": { "group": "RECEMENTATION", "count": 2, "periodYears": 1 }, "benchmark": null },
+    "DENTURE_RELINE_REPAIR": { "subsidyCents": { "PG": 8500, "MG": 8000, "Blue": 7500, "Orange": 5000 }, "limit": { "group": "DENTURE_RELINE_REPAIR", "count": 2, "periodYears": 1 }, "benchmark": null },
+    "CROWN_PERMANENT": { "subsidyCents": { "PG": 62500, "MG": 62000, "Blue": 61500, "Orange": 41000 }, "limit": { "group": "CROWN_PERMANENT", "count": 4, "periodYears": 1 }, "benchmark": { "minCents": 75000, "maxCents": 140000 } },
+    "COMPLETE_DENTURE": { "subsidyCents": { "PG": 41850, "MG": 41350, "Blue": 40850, "Orange": 27250 }, "limit": { "group": "COMPLETE_DENTURE", "count": 2, "periodYears": 3 }, "benchmark": null },
+    "PARTIAL_COMPLEX_DENTURE": { "subsidyCents": { "PG": 39550, "MG": 39050, "Blue": 38550, "Orange": 25700 }, "limit": { "group": "PARTIAL_DENTURE", "count": 2, "periodYears": 3 }, "benchmark": null },
+    "PARTIAL_SIMPLE_DENTURE": { "subsidyCents": { "PG": 31400, "MG": 30900, "Blue": 30400, "Orange": 20250 }, "limit": { "group": "PARTIAL_DENTURE", "count": 2, "periodYears": 3 }, "benchmark": null },
+    "RCT_ANTERIOR": { "subsidyCents": { "PG": 33600, "MG": 33100, "Blue": 32600, "Orange": 21750 }, "limit": { "group": "RCT", "count": 2, "periodYears": 1 }, "benchmark": null },
+    "RCT_MOLAR": { "subsidyCents": { "PG": 59450, "MG": 58950, "Blue": 58450, "Orange": 38950 }, "limit": { "group": "RCT", "count": 2, "periodYears": 1 }, "benchmark": null },
+    "RCT_PREMOLAR": { "subsidyCents": { "PG": 47250, "MG": 46750, "Blue": 46250, "Orange": 30850 }, "limit": { "group": "RCT", "count": 2, "periodYears": 1 }, "benchmark": null }
+  }
+}

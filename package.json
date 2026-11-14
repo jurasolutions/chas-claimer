@@ -1,0 +1,45 @@
+{
+  "name": "chas-claimer",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Extract CHAS, MediSave and insurance claims from a dental clinic's records, check them, and submit them through each payer's channel.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "db:migrate:local": "npx --yes wrangler@4.86.0 d1 migrations apply chas-claimer-local --local -c wrangler.local.toml --persist-to .wrangler/state",
+    "dev:functions": "npm run build && npx --yes wrangler@4.86.0 pages dev dist --compatibility-date=2026-05-01 --d1 DB=00000000-0000-0000-0000-000000000000 --persist-to .wrangler/state --binding DEV_USER=reviewer@example.test --binding ROLE_REVIEWERS=reviewer@example.test --binding ROLE_OFFICERS=officer@example.test --binding IDENTIFIER_KEY=Y2hhcy1jbGFpbWVyLWRldi1rZXktbm90LXNlY3JldCE= --binding DEMO_MODE=yes",
+    "sync:ds": "node scripts/sync-design-system.mjs",
+    "connector": "tsx connector/cli.ts",
+    "mock:clinic": "tsx mock/synthetic-clinic/cli.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.8.0",
+    "lucide": "^0.446.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sql.js": "^1.16.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260702.1",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.10",
+    "@types/node": "^20.19.43",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "@types/sql.js": "^1.4.11",
+    "@vitejs/plugin-react": "^4.7.0",
+    "fast-check": "^3.23.2",
+    "jsdom": "^26.1.0",
+    "tsx": "^4.23.15",
+    "typescript": "~5.6",
+    "vite": "^6.4.6",
+    "vitest": "^4.1.12"
+  }
+}
