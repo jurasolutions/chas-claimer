@@ -1535,3 +1535,16 @@ questions: the push to github.com/jurasolutions/chas-claimer was refused by the 
 evidence:  fresh clone of main on Node 20: npm ci ok; typecheck 0; npm test 102 files 1492 passed; build ok.
            git diff crew/chas-claimer main empty before this block; root commit message clean of identifiers
 ```
+
+## 2026-11-14T conductor (G4 push)
+
+```
+status:    done
+persona:   conductor
+ticket:    G4
+artifacts: origin/main = 4668477 (root d16d46c), the only ref on github.com/jurasolutions/chas-claimer
+decisions: the first push failed on a Keychain credential without org access; once Ting Yu fixed access, the conductor pushed main only, no force
+questions: -
+evidence:  git ls-remote origin -> HEAD and refs/heads/main only; first CI run 43574907675 green (typecheck, test and build, 1m37s);
+           annotations: GitHub actions moving off Node 20 (follow-up 13) and the ubuntu-latest image migration
+```
