@@ -1519,3 +1519,19 @@ decisions: G4 delegated by Ting Yu (2026-11-13: "dont come back to me unless eve
 questions: -
 evidence:  quality-gate.md read; verdict GO with waivers
 ```
+
+## 2026-11-14T conductor (G4 close)
+
+```
+status:    blocked
+persona:   conductor
+ticket:    G4
+artifacts: main rebuilt locally as root commit d16d46c (tree identical to the release commit 71f630c on crew/chas-claimer), authored and
+           committed as Jura release (GitHub noreply); old main kept as archive/main-planning; crew/chas-claimer kept as the full history;
+           merged ticket branches deleted; no worktrees left; this log block committed on main under the same identity
+decisions: no tag (card); push main only, no force; crew/* and archive/* stay local
+questions: the push to github.com/jurasolutions/chas-claimer was refused by the session's permission check. Ting Yu runs:
+           git push origin refs/heads/main   (remote is empty, so no force is needed), then confirms CI goes green
+evidence:  fresh clone of main on Node 20: npm ci ok; typecheck 0; npm test 102 files 1492 passed; build ok.
+           git diff crew/chas-claimer main empty before this block; root commit message clean of identifiers
+```
