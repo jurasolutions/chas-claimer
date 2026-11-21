@@ -22,7 +22,9 @@ const keySets = new Map<string, KeySet>();
 
 async function fetchKeySet(teamDomain: string): Promise<KeySet | null> {
   try {
-    const res = await fetch(`https://${teamDomain}/cdn-cgi/access/certs`, { redirect: "error" });
+    // "manual", not "error": the Workers runtime throws on "error". A redirect then arrives as a
+    // response that is not ok, so the key set is still never read from anywhere but the team domain.
+    const res = await fetch(`https://${teamDomain}/cdn-cgi/access/certs`, { redirect: "manual" });
     if (!res.ok) return null;
     const body = (await res.json()) as { keys?: unknown };
     if (!Array.isArray(body.keys)) return null;

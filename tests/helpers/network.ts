@@ -1,6 +1,10 @@
 /**
  * The network stub. `tests/setup.ts` makes every `fetch` throw; a test that needs a remote answer
  * names the exact URLs it expects here, and any other URL still throws.
+ *
+ * Like the Workers runtime, it refuses `redirect: "error"`: workerd accepts only "follow" and
+ * "manual", and throws a TypeError for anything else. Node accepts "error", so without this check
+ * a test would pass on code that fails on every deployed request.
  */
 import { vi } from "vitest";
 
@@ -8,6 +12,10 @@ export type Answer = (request: Request) => Response | Promise<Response>;
 
 export function stubNetwork(routes: Record<string, Answer>) {
   const fetchStub = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+    const redirect = init?.redirect ?? (input instanceof Request ? input.redirect : "follow");
+    if (redirect !== "follow" && redirect !== "manual") {
+      throw new TypeError(`Invalid redirect value, must be one of "follow" or "manual" (got "${redirect}")`);
+    }
     const request = new Request(input, init);
     const answer = routes[request.url];
     if (!answer) throw new Error(`Unexpected network request in a test: ${request.url}`);

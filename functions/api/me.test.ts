@@ -1,6 +1,7 @@
 import { accessClaims, accessTeam, stubAccessCerts } from "../../tests/helpers/access";
 import { OFFICER, REVIEWER, STRANGER, testEnv } from "../../tests/helpers/env";
 import { apiRequest, call } from "../../tests/helpers/http";
+import { accessRedirect, stubNetwork } from "../../tests/helpers/network";
 import { onRequestGet } from "./me";
 
 const team = await accessTeam();
@@ -120,5 +121,15 @@ describe("Access assertion verification, through GET /api/me", () => {
 
     expect([first.status, second.status]).toEqual([200, 200]);
     expect(fetchStub).toHaveBeenCalledTimes(1);
+  });
+
+  it("refuses every assertion when the team's key set answers with a redirect", async () => {
+    const domain = "redirect-test.cloudflareaccess.com";
+    stubNetwork({ [`https://${domain}/cdn-cgi/access/certs`]: accessRedirect });
+    const env = await testEnv({ ACCESS_TEAM_DOMAIN: domain });
+    const jwt = await team.sign(accessClaims(OFFICER, { iss: `https://${domain}` }));
+
+    const res = await call(onRequestGet, apiRequest("/api/me", { jwt }), env);
+    expect(res.status).toBe(401);
   });
 });

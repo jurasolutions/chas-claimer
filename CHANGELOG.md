@@ -6,7 +6,11 @@ format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and ver
 
 ## Unreleased
 
-Nothing yet.
+### Fixed
+
+- Signing in on the deployed desk works. The desk fetched the Access team's signing keys with an
+  option the Workers runtime refuses, so it turned away every sign-in with "You're signed out". The
+  test network now refuses that option too, the way the runtime does.
 
 ## 0.1.0 — 2026-11-14
 
